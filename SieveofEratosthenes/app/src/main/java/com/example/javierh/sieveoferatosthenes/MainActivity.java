@@ -3,6 +3,8 @@ package com.example.javierh.sieveoferatosthenes;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,16 +38,33 @@ public class MainActivity extends ActionBarActivity {
 
         output = (TextView) findViewById(R.id.textView3);
         input = (EditText) findViewById(R.id.editText);
-
         run = (Button) findViewById(R.id.button);
 
         if (input.getText().toString().matches("")) {
             run.setEnabled(false);
         }
 
-        if (!input.getText().toString().matches("")) {
-            run.setEnabled(true);
-        }
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (input.getText().toString().matches("")) {
+                    run.setEnabled(false);
+                }
+                else {
+                    run.setEnabled(true);
+                }
+            }
+        });
 
         run.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,52 +72,39 @@ public class MainActivity extends ActionBarActivity {
 
                 outputText.delete(0, outputText.length());
 
-                if (input.getText().toString().matches("")) {
-                    check = false;
-                } else {
-                    check = true;
-                }
+                maxPrime = Integer.parseInt(input.getText().toString());
 
-                if (check == true) {
-                    run.setEnabled(true);
+                squareRootofMax = (int) Math.sqrt(maxPrime);
 
-                    maxPrime = Integer.parseInt(input.getText().toString());
+                //boolean array A: all values defaults to false
+                //boolean[] vs Boolean[] --> boolean is better since Boolean has a larger complexity
+                A = new boolean[maxPrime + 1];
 
-                    squareRootofMax = (int) Math.sqrt(maxPrime);
+                for (int i = 2; i < squareRootofMax + 1; i++) {
+                    if (A[i] == false) {
+                        //using a while loop
+                        //int j = i*2;
+                        //while (j < maxPrime+1) {
+                        //    A[j] = true;
+                        //    j = j+i;
+                        //}
 
-                    //boolean array A: all values defaults to false
-                    //boolean[] vs Boolean[] --> boolean is better since Boolean has a larger complexity
-                    A = new boolean[maxPrime + 1];
-
-                    for (int i = 2; i < squareRootofMax + 1; i++) {
-                        if (A[i] == false) {
-
-                            //using a while loop
-                            //int j = i*2;
-                            //while (j < maxPrime+1) {
-                            //    A[j] = Boolean.FALSE;
-                            //    j = j+i;
-                            //}
-
-                            //using a for loop
-                            for (int j = i * 2; j < maxPrime + 1; j = j + i) {
-                                A[j] = true;
-                            }
+                        //using a for loop
+                        for (int j = i * 2; j < maxPrime + 1; j = j + i) {
+                            A[j] = true;
                         }
                     }
-
-                    for (int i = 2; i < A.length; i++) {
-                        if (A[i] == false) {
-                            outputText.append(i + " ");
-                        }
-                    }
-
-                    output.setText(outputText.toString());
                 }
+
+                for (int i = 2; i < A.length; i++) {
+                    if (A[i] == false) {
+                        outputText.append(i + " ");
+                    }
+                }
+
+                output.setText(outputText.toString());
             }
         });
-
-
     }
 
 
