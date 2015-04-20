@@ -14,7 +14,7 @@ Also, the Wikipedia page of the Sieve of Eratosthenes shows an optimized impleme
   //using a while loop -->
     int j = i*2;
     while (j < maxPrime+1) {
-      A[j] = Boolean.FALSE;
+      A[j] = true;
       j = j+i;
     }
 
