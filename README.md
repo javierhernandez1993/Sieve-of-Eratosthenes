@@ -33,14 +33,12 @@ For creativity, the user has to input a number and push the "RUN" button to run 
   input.addTextChangedListener(new TextWatcher() {
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
-
+    
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
-
+  
     @Override
     public void afterTextChanged(Editable s) {
       if (input.getText().toString().matches("")) {
